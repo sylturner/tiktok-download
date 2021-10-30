@@ -1,9 +1,9 @@
 // Require stuff
 const mongoose = require('mongoose')
-const { mongo } = require('../other/settings.json')
+const { mongo } = require('../other/settings')
 const log = require('./log')
 
-mongoose.connect(mongo, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(encodeURI(mongo), { useNewUrlParser: true, useUnifiedTopology: true })
 
 // Define a function that checks if a string is a color code
 const colorValidator = (v) => (/^#([0-9a-f]{3}){1,2}$/i).test(v)

@@ -27,7 +27,7 @@ const http = require('http')
 const fs = require('fs')
 const path = require('path')
 
-const { compression, relativeDownloadPath, tiktok } = require('../other/settings.json')
+const { compression, relativeDownloadPath, tiktok } = require('../other/settings')
 const { proxies, sessions } = tiktok
 const log = require('./log')
 

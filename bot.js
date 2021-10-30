@@ -1,13 +1,15 @@
+require('dotenv').config()
 const { SlashCreator, GatewayServer } = require('slash-create')
 const path = require('path')
 const Discord = require('discord.js')
 const { FLAGS } = Discord.Intents
 const mongoose = require('mongoose')
 const fs = require('fs')
+const promiseRetry = require('promise-retry');
 
 const TikTokParser = require('./modules/tiktok')
 const { ServerOptions } = require('./modules/mongo')
-const { bot, status, owner } = require('./other/settings.json')
+const { bot, status, owner } = require('./other/settings')
 const log = require('./modules/log')
 const botInviteURL = require('./modules/invite')
 const { tikTokMessage } = require('./modules/messageGenerator')
@@ -185,35 +187,40 @@ client.on('message', async message => {
   log.info(`📩 - Processing Video: ${tiktok}`, { serverID: message.guild.id })
 
   // Get the video data
-  TikTokParser(tiktok, message.guild.id, statusUpdater).then(async videoData => {
-    // With the video data...
-    const requester = {
-      avatarURL: message.author.avatarURL(),
-      name: message.author.tag
-    }
-    // Start making the message its going to send
-    const response = tikTokMessage(videoData, guildOptions, requester)
-    response.files = [videoData.videoPath]
+  promiseRetry((retry, number) => {
+    TikTokParser(tiktok, message.guild.id, statusUpdater).then(async videoData => {
+      // With the video data...
+      const requester = {
+        avatarURL: message.author.avatarURL(),
+        name: message.author.tag
+      }
+      // Start making the message its going to send
+      const response = tikTokMessage(videoData, guildOptions, requester)
+      response.files = [videoData.videoPath]
 
-    // Wait for message to send...
-    await channel.send(response).catch(err => {
-      log.error(`⚠️ - ERROR SENDING VIDEO\n${err}`, { serverID: message.guild.id })
+      // Wait for message to send...
+      await channel.send(response).catch(err => {
+        log.error(`⚠️ - ERROR SENDING VIDEO\n${err}`, { serverID: message.guild.id })
+      })
+
+      // If the message is deletable, and they have autodelete enabled, then...
+      if (message.deletable && ((guildOptions.autodownload.deletemessage && guildOptions.autodownload.smartdelete && onlyTikTok) || (guildOptions.autodownload.deletemessage && !guildOptions.autodownload.smartdelete))) {
+        // Delete the video
+        message.delete()
+      }
+
+      // If there was a status message...
+      if (statusMessage && statusMessage.deletable) {
+        // Delete the status messsage.
+        statusMessage.delete()
+      }
+
+      // Delete the local video file(s)
+      videoData.purge()
+    }).catch((err) => {
+      console.log('retrying error', err)
+      retry(err)
     })
-
-    // If the message is deletable, and they have autodelete enabled, then...
-    if (message.deletable && ((guildOptions.autodownload.deletemessage && guildOptions.autodownload.smartdelete && onlyTikTok) || (guildOptions.autodownload.deletemessage && !guildOptions.autodownload.smartdelete))) {
-      // Delete the video
-      message.delete()
-    }
-
-    // If there was a status message...
-    if (statusMessage && statusMessage.deletable) {
-      // Delete the status messsage.
-      statusMessage.delete()
-    }
-
-    // Delete the local video file(s)
-    videoData.purge()
   }).catch(err => {
     // If theres an error...
     // Log error

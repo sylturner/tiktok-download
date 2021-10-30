@@ -3,7 +3,7 @@ const { SlashCommand } = require('slash-create')
 
 const { ServerOptions } = require('../mongo')
 const { version } = require('../../package.json')
-const { owner, emojis, helplink, voteURL } = require('../../other/settings.json')
+const { owner, emojis, helplink, voteURL } = require('../../other/settings')
 const { tiktok, github, discord } = emojis
 const botInviteURL = require('../invite')
 const log = require('../log')

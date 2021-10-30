@@ -5,9 +5,11 @@
   "license": "MIT",
   "dependencies": {
     "discord.js": "^13.1.0",
+    "dotenv": "^10.0.0",
     "ffmpeg-static": "^4.3.0",
     "fluent-ffmpeg": "^2.1.2",
     "mongoose": "^5.12.10",
+    "promise-retry": "^2.0.1",
     "slash-create": "^4.0.1",
     "tiktok-scraper": "^1.4.36",
     "winston": "^3.3.3"
@@ -37,5 +39,8 @@
   "bugs": {
     "url": "https://github.com/addyire/tiktok-download/issues"
   },
-  "homepage": "https://github.com/addyire/tiktok-download#readme"
+  "homepage": "https://github.com/addyire/tiktok-download#readme",
+  "engines": {
+    "node": "16.x"
+  }
 }
