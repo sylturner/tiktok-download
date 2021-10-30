@@ -9,6 +9,7 @@
     "ffmpeg-static": "^4.3.0",
     "fluent-ffmpeg": "^2.1.2",
     "mongoose": "^5.12.10",
+    "promise-retry": "^2.0.1",
     "slash-create": "^4.0.1",
     "tiktok-scraper": "^1.4.36",
     "winston": "^3.3.3"
