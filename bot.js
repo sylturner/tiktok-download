@@ -217,10 +217,7 @@ client.on('message', async message => {
 
       // Delete the local video file(s)
       videoData.purge()
-    }).catch((err) => {
-      console.log('retrying error', err)
-      retry
-    })
+    }).catch(retry)
   }).catch(err => {
     // If theres an error...
     // Log error
