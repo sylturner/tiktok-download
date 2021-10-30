@@ -3,7 +3,7 @@ const fs = require('fs')
 
 const { ServerOptions } = require('../mongo')
 const TikTokParser = require('../tiktok')
-const { owner } = require('../../other/settings.json')
+const { owner } = require('../../other/settings')
 const log = require('../log')
 const { tikTokMessage } = require('../messageGenerator')
 

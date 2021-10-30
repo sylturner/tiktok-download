@@ -1,3 +1,4 @@
+require('dotenv').config()
 const { SlashCreator, GatewayServer } = require('slash-create')
 const path = require('path')
 const Discord = require('discord.js')
@@ -7,7 +8,7 @@ const fs = require('fs')
 
 const TikTokParser = require('./modules/tiktok')
 const { ServerOptions } = require('./modules/mongo')
-const { bot, status, owner } = require('./other/settings.json')
+const { bot, status, owner } = require('./other/settings')
 const log = require('./modules/log')
 const botInviteURL = require('./modules/invite')
 const { tikTokMessage } = require('./modules/messageGenerator')

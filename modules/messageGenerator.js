@@ -1,5 +1,5 @@
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js')
-const { emojis } = require('../other/settings.json')
+const { emojis } = require('../other/settings')
 
 function tikTokMessage (videoData, guildSettings, requester, interaction = false) {
   // Create response
