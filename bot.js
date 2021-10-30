@@ -219,7 +219,7 @@ client.on('message', async message => {
       videoData.purge()
     }).catch((err) => {
       console.log('retrying error', err)
-      retry(err)
+      retry
     })
   }).catch(err => {
     // If theres an error...
