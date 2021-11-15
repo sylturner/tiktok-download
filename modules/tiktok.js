@@ -1,5 +1,6 @@
 const TikTokScraper = require('tiktok-scraper')
 const ffmpeg = require('fluent-ffmpeg')
+const promiseRetry = require('promise-retry');
 
 ffmpeg.setFfmpegPath(require('ffmpeg-static'))
 
@@ -49,6 +50,7 @@ function processTikTok (videoURL, guildID, statusChange) {
   return new Promise((resolve, reject) => {
     // Get video metaData then...
     TikTokScraper.getVideoMeta(videoURL, SETTINGS).then((videoMeta) => {
+      console.log(videoMeta)
       // Store the headers for downloading the video
       const headers = videoMeta.headers
 
