@@ -5,6 +5,7 @@ const Discord = require('discord.js')
 const { FLAGS } = Discord.Intents
 const mongoose = require('mongoose')
 const fs = require('fs')
+const promiseRetry = require('promise-retry');
 
 const TikTokParser = require('./modules/tiktok')
 const { ServerOptions } = require('./modules/mongo')
@@ -186,7 +187,10 @@ client.on('message', async message => {
   log.info(`📩 - Processing Video: ${tiktok}`, { serverID: message.guild.id })
 
   // Get the video data
-  TikTokParser(tiktok, message.guild.id, statusUpdater).then(async videoData => {
+  promiseRetry((retry, number) => {
+    log.info("attempting tiktok parse")
+    return TikTokParser(tiktok, message.guild.id, statusUpdater).catch(retry)
+  }).then(async videoData => {
     // With the video data...
     const requester = {
       avatarURL: message.author.avatarURL(),
