@@ -188,7 +188,8 @@ client.on('message', async message => {
 
   // Get the video data
   promiseRetry((retry, number) => {
-    TikTokParser(tiktok, message.guild.id, statusUpdater).then(async videoData => {
+    log.info('attempt number', number);
+    TikTokParser(tiktok, message.guild.id, statusUpdater).catch(retry).then(async videoData => {
       // With the video data...
       const requester = {
         avatarURL: message.author.avatarURL(),
@@ -217,7 +218,7 @@ client.on('message', async message => {
 
       // Delete the local video file(s)
       videoData.purge()
-    }).catch(retry)
+    })
   }).catch(err => {
     // If theres an error...
     // Log error
