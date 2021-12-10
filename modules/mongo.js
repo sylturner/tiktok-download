@@ -29,7 +29,7 @@ const serverSchema = new mongoose.Schema({
   details: {
     enabled: {
       type: Boolean,
-      default: true
+      default: false
     },
     description: {
       type: Boolean,
@@ -65,7 +65,7 @@ const serverSchema = new mongoose.Schema({
     },
     deletemessage: {
       type: Boolean,
-      default: true
+      default: false
     },
     smart: {
       type: Boolean,
