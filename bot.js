@@ -206,10 +206,10 @@ client.on('message', async message => {
     })
 
     // If the message is deletable, and they have autodelete enabled, then...
-    if (message.deletable && ((guildOptions.autodownload.deletemessage && guildOptions.autodownload.smartdelete && onlyTikTok) || (guildOptions.autodownload.deletemessage && !guildOptions.autodownload.smartdelete))) {
-      // Delete the video
-      message.delete()
-    }
+    //if (message.deletable && ((guildOptions.autodownload.deletemessage && guildOptions.autodownload.smartdelete && onlyTikTok) || (guildOptions.autodownload.deletemessage && !guildOptions.autodownload.smartdelete))) {
+      //// Delete the video
+      //message.delete()
+    //}
 
     // If there was a status message...
     if (statusMessage && statusMessage.deletable) {
